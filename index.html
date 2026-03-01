@@ -2,7 +2,10 @@
 <html lang="en" class="theme-custom">
 <head>
     <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
+    <meta name="description" content="Hoàng Minh Nhật Profile - Kết nối và chia sẻ">
+    <meta name="author" content="MinhNhatTV">
     <title>Hoàng Minh Nhật Profile</title>
     <link rel="shortcut icon" href="https://i.imgur.com/dxVZLOG.png" type="image/x-icon">
     <link rel="stylesheet" href="./res/v5/css/ws.theme.css">
@@ -12,123 +15,146 @@
     <link rel="stylesheet" href="./res/v5/css/custom-love.css">
     <link href="https://cdn.jsdelivr.net/npm/remixicon@4.2.0/fonts/remixicon.min.css" rel="stylesheet">
     <style>
-        /* Menu WS Settings chuẩn */
-        #WS-Settings {
-            position: fixed; right: -300px; top: 0; width: 280px; height: 100%;
-            background: #fff; z-index: 10000; transition: 0.4s; padding: 20px;
-            box-shadow: -5px 0 15px rgba(0,0,0,0.1); color: #333; overflow-y: auto;
-        }
-        #WS-Settings.active { right: 0; }
-        
-        /* Đồng hồ thời gian thực ở dưới màn hình */
-        .real-time-box {
-            position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%);
-            text-align: center; color: white; z-index: 100; width: 100%;
-        }
-        #current-time {
-            font-size: 35px; font-weight: bold; font-family: 'Arial', sans-serif;
-            text-shadow: 0 0 10px rgba(255,255,255,0.5); letter-spacing: 2px;
-        }
-        #current-date { font-size: 14px; opacity: 0.8; margin-top: 5px; }
-
+        /* Chạm đâu cũng mở màn hình khóa */
         .td-lock-screen { cursor: pointer; z-index: 9999; }
-        .love-days-box { margin-top: 15px; text-align: center; color: #ff4d6d; font-weight: bold; }
+        /* Đồng hồ thời gian thực ở dưới màn hình */
+        .time-now {
+            position: fixed; bottom: 80px; left: 50%; transform: translateX(-50%);
+            font-size: 30px; font-weight: bold; color: white; text-shadow: 0 0 10px rgba(0,255,255,0.7);
+            z-index: 99; font-family: 'Arial', sans-serif;
+        }
+        /* Fix icon mạng xã hội */
+        .social-img-fix { width: 42px !important; height: 42px !important; border-radius: 10px; margin: 0 10px; }
+        /* Hiệu ứng RGB cho Marquee */
+        .rgb-text { animation: rgb-text 2s infinite linear; font-weight: bold; }
+        @keyframes rgb-text {
+            0% { color: #ff0000; } 20% { color: #ff8000; } 40% { color: #ffff00; }
+            60% { color: #00ff00; } 80% { color: #0000ff; } 100% { color: #ff0000; }
+        }
     </style>
 </head>
 <body class="BodyStyle" id="bodyMain">
     <div class="td-lock-screen" id="lockScreen">
         <section class="td-welcome">
             <div class="medias">
-                <video class="item_video" autoplay loop muted playsinline><source src="./res/v5/files/video/hutao.mp4" type="video/mp4"></video>
+                <video class="item_video" autoplay loop muted playsinline>
+                    <source src="./res/v5/files/video/hutao.mp4" type="video/mp4">
+                </video>
             </div>
             <div class="infos">
-                <div class="logo-web-title"><img class="logo-ws" src="https://i.imgur.com/dxVZLOG.png"><span class="web-title">𝑯𝒐𝑩𝒂𝑴𝒚</span></div>
-                <span class="web_desc">Chạm để mở Profile</span>
+                <div class="logo-web-title">
+                    <img class="logo-ws" src="https://i.imgur.com/dxVZLOG.png">
+                    <span class="web-title">𝑯𝒐𝑩𝒂𝑴𝒚</span>
+                </div>
+                <span class="web_desc">Chạm bất kỳ đâu để vào Profile</span>
+                <i class="ri-arrow-down-double-line" style="font-size: 2rem; color: white; display: block; margin-top: 10px;"></i>
             </div>
         </section>
     </div>
 
-    <header id="header">
-        <h2><a href="#" class="site-icon">Hoàng Minh Nhật</a></h2>
-        <div class="site-buttons">
-            <button class="site-button" onclick="openSettings()"><i class="ri-settings-3-line"></i></button>
-        </div>
-    </header>
-
-    <div id="WS-Settings">
-        <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #eee; padding-bottom: 10px;">
-            <h3 style="font-size: 14px; color: #556ee6;">WS SETTINGS</h3>
-            <i class="ri-close-line" onclick="closeSettings()" style="cursor:pointer; font-size:20px;"></i>
-        </div>
-        <div style="margin-top:20px;">
-            <span style="font-size: 11px; color: #999;">NỀN BACKGROUND</span>
-            <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 5px; margin-top:10px;">
-                <img src="./res/v5/img/bg.gif" width="100%" style="border-radius:4px;" onclick="setBg(this.src)">
-                <img src="https://i.imgur.com/V4Y0u3A.png" width="100%" style="border-radius:4px;" onclick="setBg(this.src)">
-            </div>
+    <div id="loading-box">
+        <div class="loading-bg">
+            <img class="loading-img" src="https://i.imgur.com/dxVZLOG.png">
+            <div id="loading-percentage">0%</div>
         </div>
     </div>
 
     <main id="td-main">
+        <header id="header">
+            <h2><a href="#" class="site-icon">Hoàng Minh Nhật</a></h2>
+            <div class="site-buttons">
+                <button class="site-button" onclick="openSettings()"><i class="ri-settings-3-line"></i></button>
+            </div>
+        </header>
+
         <section class="td-content">
             <div class="about-me">
+                <div class="info-left"><span class="tag">Designer</span><span class="tag">Developer</span></div>
                 <div class="avatar">
                     <img class="avatar-img" src="https://i.imgur.com/zH3lWwR.jpeg"> 
                     <img class="crown" src="./res/v5/img/crown/mong-vuot-rong.png">
                 </div>
+                <div class="info-right"><span class="tag">Music</span><span class="tag">Gamer</span></div>
             </div>
             <h2 class="HoVaTen__"><span>Hoàng Minh Nhật</span></h2>
 
-            <div class="love-days-box">
-                <div id="love-time">0 Ngày 0 Giờ</div>
+            <div id="td-lovedays" style="text-align: center; margin-top: 20px;">
+                <div class="love-time1">
+                    <span id="love-days-count" style="font-size: 20px; color: #ff4d6d; font-weight: bold;">0 Ngày</span>
+                </div>
             </div>
             
-            <div class="social-group" style="text-align:center; margin-top:20px;">
-                <a href="https://www.facebook.com/minhnhat.2307" target="_blank"><img src="https://upload.wikimedia.org/wikipedia/commons/0/05/Facebook_Logo_2023.png" width="40" style="margin:10px;"></a>
-                <a href="https://www.tiktok.com/@hoangminhnhat.2307" target="_blank"><img src="https://cdn-icons-png.flaticon.com/512/3046/3046121.png" width="40" style="margin:10px;"></a>
+            <div class="social-group" style="text-align:center; margin-top:30px;">
+                <a href="https://www.facebook.com/minhnhat.2307" target="_blank">
+                    <img class="social-img-fix" src="https://upload.wikimedia.org/wikipedia/commons/0/05/Facebook_Logo_2023.png">
+                </a>
+                <a href="https://zalo.me/0364953921" target="_blank">
+                    <img class="social-img-fix" src="https://upload.wikimedia.org/wikipedia/commons/9/91/Icon_Zalo.svg">
+                </a>
+                <a href="https://www.tiktok.com/@hoangminhnhat.2307" target="_blank">
+                    <img class="social-img-fix" src="https://cdn-icons-png.flaticon.com/512/3046/3046121.png">
+                </a>
             </div>
         </section>
     </main>
 
-    <div class="real-time-box">
-        <div id="current-time">00:00:00</div>
-        <div id="current-date">Chủ Nhật, ngày 01 tháng 03 năm 2026</div>
+    <div id="SettingPanel" style="position:fixed; right:-300px; top:0; width:280px; height:100%; background:#fff; z-index:10000; transition:0.4s; padding:20px; box-shadow:-5px 0 15px rgba(0,0,0,0.1);">
+        <div style="display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid #eee; padding-bottom:10px;">
+            <h3 style="font-size:14px; color:#556ee6;">WS SETTINGS</h3>
+            <i class="ri-close-line" onclick="closeSettings()" style="cursor:pointer; font-size:20px;"></i>
+        </div>
+        <div style="margin-top:20px;">
+            <span style="font-size:11px; color:#999;">CHỌN NỀN</span>
+            <div style="display:grid; grid-template-columns:repeat(2, 1fr); gap:10px; margin-top:10px;">
+                <img src="./res/v5/img/bg.gif" width="100%" onclick="setBg(this.src)" style="cursor:pointer; border-radius:5px;">
+                <img src="./res/v5/img/bg3.webp" width="100%" onclick="setBg(this.src)" style="cursor:pointer; border-radius:5px;">
+            </div>
+        </div>
     </div>
+
+    <div class="time-now" id="real-time">00:00:00</div>
+
+    <marquee class="rgb-text" style="position: fixed; bottom: 50px; width: 100%;">
+        Chào mừng bạn đến với Profile của Hoàng Minh Nhật - Chúc bạn một ngày tốt lành! ✨🔥
+    </marquee>
+
+    <footer id="footer">
+        <a href="https://minhnhatvtv.mssg.me" target="_blank">&copy; Copyright Minh Nhật 2026</a>
+    </footer>
 
     <script src="./res/v5/libs/jquery/jquery-3.6.0.min.js"></script>
     <script>
-        // 1. Đồng hồ thời gian thực
-        function updateClock() {
-            const now = new Date();
-            const hours = String(now.getHours()).padStart(2, '0');
-            const minutes = String(now.getMinutes()).padStart(2, '0');
-            const seconds = String(now.getSeconds()).padStart(2, '0');
-            document.getElementById('current-time').textContent = `${hours}:${minutes}:${seconds}`;
-            
-            const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
-            document.getElementById('current-date').textContent = now.toLocaleDateString('vi-VN', options);
-        }
-        setInterval(updateClock, 1000);
-        updateClock();
+        // 1. Loading
+        let pct = 0;
+        let ld = setInterval(() => {
+            pct += 5;
+            if(pct >= 100) { clearInterval(ld); setTimeout(() => { $('#loading-box').fadeOut(); }, 200); }
+            $('#loading-percentage').text(pct + '%');
+        }, 50);
 
-        // 2. Đếm ngày yêu (Chỉnh ngày ở đây)
-        const startDate = new Date("2023-01-01T00:00:00");
-        function updateLoveTime() {
-            const diff = new Date() - startDate;
-            const days = Math.floor(diff / (1000 * 60 * 60 * 24));
-            document.getElementById("love-time").innerHTML = `💖 Đã bên nhau ${days} ngày 💖`;
-        }
-        setInterval(updateLoveTime, 1000);
-        updateLoveTime();
+        // 2. Chạm đâu cũng mở
+        $('#lockScreen').click(function() { $(this).fadeOut(600); });
 
-        // 3. Chức năng Menu
-        function openSettings() { $('#WS-Settings').addClass('active'); }
-        function closeSettings() { $('#WS-Settings').removeClass('active'); }
-        function setBg(url) { $('#bodyMain').css('background-image', 'url('+url+')'); }
+        // 3. Đồng hồ hệ thống
+        setInterval(() => {
+            const n = new Date();
+            $('#real-time').text(n.getHours().toString().padStart(2,'0') + ":" + n.getMinutes().toString().padStart(2,'0') + ":" + n.getSeconds().toString().padStart(2,'0'));
+        }, 1000);
 
-        $(document).ready(function() {
-            $('#lockScreen').click(function() { $(this).fadeOut(500); });
-        });
+        // 4. Đếm ngày yêu (Thay ngày của bạn vào đây)
+        const start = new Date("2023-01-01");
+        setInterval(() => {
+            const days = Math.floor((new Date() - start) / (1000*60*60*24));
+            $('#love-days-count').text("💖 Đã bên nhau " + days + " ngày 💖");
+        }, 1000);
+
+        // 5. Settings
+        function openSettings() { $('#SettingPanel').css('right', '0'); }
+        function closeSettings() { $('#SettingPanel').css('right', '-300px'); }
+        function setBg(url) { $('body').css('background-image', 'url('+url+')'); }
+
+        // 6. Hiệu ứng tim bay
+        !function(e,t,a){function n(){c(".heart{width: 10px;height: 10px;position: fixed;background: #f00;transform: rotate(45deg);-webkit-transform: rotate(45deg);-moz-transform: rotate(45deg);}.heart:after,.heart:before{content: '';width: inherit;height: inherit;background: inherit;border-radius: 50%;-webkit-border-radius: 50%;-moz-border-radius: 50%;position: absolute;}.heart:after{top: -5px;}.heart:before{left: -5px;}"),o(),r()}function r(){for(var e=0;e<d.length;e++)d[e].alpha<=0?(t.body.removeChild(d[e].el),d.splice(e,1)):(d[e].y--,d[e].scale+=.004,d[e].alpha-=.013,d[e].el.style.cssText="left:"+d[e].x+"px;top:"+d[e].y+"px;opacity:"+d[e].alpha+";transform:scale("+d[e].scale+") rotate(45deg);background:"+d[e].color+";z-index:99999");requestAnimationFrame(r)}function o(){t.onclick=function(t){i(t)}}function i(e){var a=t.createElement("div");a.className="heart",d.push({el:a,x:e.clientX-5,y:e.clientY-5,scale:1,alpha:1,color:s()}),t.body.appendChild(a)}function c(e){var a=t.createElement("style");a.type="text/css";a.appendChild(t.createTextNode(e)),t.getElementsByTagName("head")[0].appendChild(a)}function s(){return"rgb("+(~~(255*Math.random()))+","+(~~(255*Math.random()))+","+(~~(255*Math.random()))+")"}var d=[];n()}(window,document);
     </script>
 </body>
 </html>
